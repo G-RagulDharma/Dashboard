@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react"
+import axios from "axios";
 
 const User = () => {
     const [user, setUser] = useState([]);
 
-
     useEffect(() => {
-        fetch(`https://jsonplaceholder.typicode.com/users`)
-            .then((response) => response.json())
-            .then((data) => {
-                setUser(data);
-            })
-            .catch((error) => {
+        const fetchData=async()=>{
+            try {
+                const response =await axios.get("https://jsonplaceholder.typicode.com/users")
+                setUser(response.data);
+            }
+            catch (error) {
                 console.log("Error Fetching User", error);
-            });
+            }
+        };
+        fetchData();    
+
     }, []);
 
     return (
@@ -64,7 +67,7 @@ const User = () => {
                                             {users.email}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {users.address.street}<br/>
+                                            {users.address.street}<br />
                                             {users.address.city}
                                         </td>
                                         <td class="px-6 py-4">
